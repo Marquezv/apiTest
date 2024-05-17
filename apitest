@@ -1,0 +1,13 @@
+server {
+	listen 192.168.12.1:80 default_server;
+	
+	server_name cardinalwave.net www.cardinalwave.net;
+	
+	 location / {
+		allow all;
+		include proxy_params;
+		proxy_pass http://unix:/home/vmarquezv/apps/apiTest/apiTest.sock;
+	}
+}
+
+

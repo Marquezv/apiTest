@@ -1,0 +1,13 @@
+[Unit]
+Description=Flask Web Application Server using Gunicorn - apiTest
+After=network.target
+
+[Service]
+User=vmarquezv
+Group=www-data
+WorkingDirectory=/home/vmarquezv/apps/apiTest
+Environment="PATH=/home/vmarquezv/apps/apiTest/.env/bin"
+ExecStart=/home/vmarquezv/apps/apiTest/.env/bin/gunicorn --workers 3 --bind unix:apiTest.sock  wsgi:app
+
+[Install]
+WantedBy=multi-user.target
