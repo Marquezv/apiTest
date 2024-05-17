@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta charset="viewport" content="width=device-width, initial-scale=1">
+    <title>Page Socket</title>
+    <style>
+      body {
+	  font-family: Arial, sans-serif;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  height: 100vh;
+	  margin: 0;
+      }
+      #app {
+	  max-width: 80%;
+	  min-width: 80%;
+	  margin: 20px;
+	  padding: 20px;
+	  border: 1px solid #ccc;
+	  border-radius: 5px;
+	  background-color: #f9f9f9;
+      }
+      .message-container {
+	  margin-bottom: 10px;
+      }
+      .message-container strong {
+	  color: #333;
+      }
+      input {
+	  width: calc(100% - 70px);
+	  margin-right: 10px;
+	  padding: 8px;
+	  border: 1px solid #ccc;
+	  border-radius: 3px;
+	  box-sizing: border-box;
+      }
+      button {
+	  padding: 8px 15px;
+	  margin-top:5px;
+	  background-color: 10px;
+	  color: #0056b3;
+	  border: none;
+	  border-radius: 3px;
+	  cursor: pointer;
+      }
+      button:hover {
+	  background-color: #fff;
+      }
+      
+    </style>
+
+  </head>
+
+  <body>
+  <div id="app">
+    <div><h1><br /> CardinalWave</h1></div>
+    <h3>Usuario</h3>
+    <input type="text" id="iptUser">
+    <h3>Senha</h3>
+    <input type="password" id="iptPassword">
+    <button id="btnLogin" >Enviar</button>
+    <h5>Mensagem</h5>	
+    <input type="text" id="iptMsg"> 
+    <button id="btnMsg" >Enviar Msg</button> 
+  </div>
+    <script>
+	socket = new WebSocket("ws:/" + "/" + location.host + ":81");
+	socket.onopen = function(e) { console.log("[socket] socket.onopen "); };
+	socket.onerror = function(e) { console.log("[socket] socket.onerror "); };
+  
+	socket.onmessage = function(e) {
+	  console.log("[socket] " + e.data);
+	};
+    function generateId() {
+	return "sessionid_" + Math.random().toString(36).substr(2,9);
+    }
+    
+    function verifySessionId() {
+    	let sessionId = localStorage.getItem("sessionId");
+	if (!sessionId) {
+  	  sessionId = generateId();
+	  localStorage.setItem("sessionId", sessionId);
+	}
+	return sessionId;
+    }  
+    let sessionId = verifySessionId();
+    console.log(sessionId);
+
+    const session = {
+	session_Id: sessionId,
+    };	
+    
+    let btn_login = document.getElementById("btnLogin");  
+    btn_login.addEventListener("click", function() {
+   	 let ipt_pass = document.getElementById("iptPassword");
+	 let ipt_user = document.getElementById("iptUser"); 
+	
+    	const login = {		
+	  username:ipt_user.value,
+	  password:ipt_pass.value
+	};
+	
+	session.action = "login"
+	session.payload = login;
+	
+	let request = JSON.stringify(session);	
+	console.log(request);		
+
+	socket.send(request);
+   	ipt_user.value = '';
+	ipt_pass.value = '';
+	console.log(login)
+   });        	
+  
+    let btn_msg = document.getElementById("btnMsg");	
+   
+    btn_msg.addEventListener("click", function(){
+	let ipt_msg = document.getElementById("iptMsg");    
+
+
+
+
+	socket.send(ipt_msg.value);
+    	ipt_msg.value = '';
+   });   
+	
+  </script>
+ </body>
+</html>

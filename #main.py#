@@ -48,7 +48,7 @@ def login():
     login_success = LoginSucess(user=simple_user, access_token='xxxxxxx')
 
     clients.append(simple_user)
-    print(clients);
+    
     return login_success.json()
 
 

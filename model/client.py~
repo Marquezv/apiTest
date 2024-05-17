@@ -1,0 +1,17 @@
+import datetime as dt
+
+from marshmallow import Schema, fields
+
+class Client(object):
+    def __init__(self, client_id, name, status):
+        self.client_id = client_id
+        self.name = name
+        self.status = status
+
+    def __repr__(self):
+        return '<Client(name={self.name!r})>'.format(self.self)
+
+class ClientSchema(Schema):
+    client_id = fields.Str()
+    name = fields.Str()
+    status = fields.Str()

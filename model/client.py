@@ -6,14 +6,14 @@ class SimpleUser(BaseModel):
     name: str
     status: bool
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class User(BaseModel):
     id: Optional[int] = None
     name: str
     password: str
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class LoginData(BaseModel):
     name: str

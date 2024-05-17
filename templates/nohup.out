@@ -1,0 +1,7 @@
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+Connection lost to X server ':0.0'
+When compiled with GTK, Emacs cannot recover from X disconnects.
+This is a GTK bug: https://gitlab.gnome.org/GNOME/gtk/issues/221
+For details, see etc/PROBLEMS.

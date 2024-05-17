@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request
 import json
 
 from model.client import User, SimpleUser, LoginData, LoginSucess
@@ -7,9 +7,11 @@ app = Flask(__name__)
 
 clients = []
 
+
 @app.route('/')
 def index():
-    return render_template("test.html")
+    return {'client': ''}
+
 
 @app.route('/<name>')
 def print_name(name):
@@ -46,11 +48,9 @@ def login():
     simple_user = SimpleUser(id=1, name="Lua", status=True)
 
     login_success = LoginSucess(user=simple_user, access_token='xxxxxxx')
-
-    clients.append(simple_user)
-    print(clients);
+    
     return login_success.json()
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(debug=True)
